@@ -232,7 +232,7 @@ def build_cursor_stdio_config(config_path: str | Path | None = None) -> dict[str
     return {
         "mcpServers": {
             "prompt-engine": {
-                "command": "prompt-engine",
+                "command": "vibe-prompt-engine",
                 "args": ["mcp", "stdio"],
                 "env": env,
             }

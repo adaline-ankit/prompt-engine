@@ -12,14 +12,14 @@ Prompt Engine should be released in two forms:
 Publish the Python package so users can run:
 
 ```bash
-uvx prompt-engine mcp stdio
+uvx vibe-prompt-engine mcp stdio
 ```
 
 or:
 
 ```bash
-pipx install prompt-engine
-prompt-engine mcp stdio
+pipx install vibe-prompt-engine
+vibe-prompt-engine mcp stdio
 ```
 
 ### 2. GitHub Releases
@@ -76,14 +76,14 @@ Cloud Run is a good first production target because it is container-native, auto
 5. Tag a release:
 
 ```bash
-git tag v0.1.0
+git tag v0.1.1
 git push origin main --tags
 ```
 
 For this repository, the canonical source is:
 
 - GitHub: [adaline-ankit/prompt-engine](https://github.com/adaline-ankit/prompt-engine)
-- PyPI project: [prompt-engine](https://pypi.org/project/prompt-engine/)
+- PyPI project: [vibe-prompt-engine](https://pypi.org/project/vibe-prompt-engine/)
 
 `VERSION` is the release source of truth. Keep `VERSION` and `pyproject.toml` aligned. You can either:
 
@@ -102,7 +102,7 @@ or run the GitHub Actions `release-bump` workflow, which updates `VERSION`, `pyp
   "mcpServers": {
     "prompt-engine": {
       "command": "uvx",
-      "args": ["prompt-engine", "mcp", "stdio"]
+      "args": ["vibe-prompt-engine", "mcp", "stdio"]
     }
   }
 }
@@ -118,7 +118,7 @@ If PyPI is not live yet, bootstrap from GitHub instead:
       "args": [
         "--from",
         "git+https://github.com/adaline-ankit/prompt-engine",
-        "prompt-engine",
+        "vibe-prompt-engine",
         "mcp",
         "stdio"
       ]

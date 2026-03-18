@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "prompt-engine": {
-      "command": "prompt-engine",
+      "command": "vibe-prompt-engine",
       "args": ["mcp", "stdio"],
       "env": {
         "PROMPT_ENGINE_CONFIG": "/ABSOLUTE/PATH/TO/prompt-engine/config/config.yaml"
@@ -9,4 +9,3 @@
     }
   }
 }
-

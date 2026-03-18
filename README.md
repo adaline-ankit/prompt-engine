@@ -64,9 +64,9 @@ tests/
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-prompt-engine run "Extract the customer objections from this transcript and return JSON."
+vibe-prompt-engine run "Extract the customer objections from this transcript and return JSON."
 uvicorn prompt_engine.api.app:app --reload
-prompt-engine mcp cursor-config --transport stdio
+vibe-prompt-engine mcp cursor-config --transport stdio
 python evals/runner.py
 ```
 
@@ -75,13 +75,13 @@ python evals/runner.py
 Local `stdio` server for Cursor:
 
 ```bash
-uvx prompt-engine mcp stdio
+uvx vibe-prompt-engine mcp stdio
 ```
 
 Local or hosted Streamable HTTP server:
 
 ```bash
-prompt-engine mcp http --host 127.0.0.1 --port 8001 --path /mcp
+vibe-prompt-engine mcp http --host 127.0.0.1 --port 8001 --path /mcp
 ```
 
 The FastAPI app also mounts MCP at `/mcp`, so this works too:
@@ -92,7 +92,7 @@ uvicorn prompt_engine.api.app:app --reload --host 0.0.0.0 --port 8000
 
 Then point Cursor to:
 
-- `command: prompt-engine`
+- `command: vibe-prompt-engine`
 - `args: ["mcp", "stdio"]`
 
 Or point Cursor to:
@@ -102,8 +102,8 @@ Or point Cursor to:
 You can print ready-to-paste Cursor config:
 
 ```bash
-prompt-engine mcp cursor-config --transport stdio
-prompt-engine mcp cursor-config --transport http --url http://127.0.0.1:8000/mcp
+vibe-prompt-engine mcp cursor-config --transport stdio
+vibe-prompt-engine mcp cursor-config --transport http --url http://127.0.0.1:8000/mcp
 ```
 
 ## Public release strategy
@@ -119,20 +119,20 @@ Recommended rollout:
 2. Publish container image to GHCR
 3. Deploy hosted image to Cloud Run
 4. Give users either:
-   - local config using `uvx prompt-engine mcp stdio`
+   - local config using `uvx vibe-prompt-engine mcp stdio`
    - or hosted config using `https://api.your-domain.com/mcp`
 
 Until PyPI trusted publishing is configured, users can install directly from GitHub:
 
 ```bash
-uvx --from git+https://github.com/adaline-ankit/prompt-engine prompt-engine mcp stdio
+uvx --from git+https://github.com/adaline-ankit/prompt-engine vibe-prompt-engine mcp stdio
 ```
 
 Or with `pipx`:
 
 ```bash
 pipx install git+https://github.com/adaline-ankit/prompt-engine.git
-prompt-engine mcp stdio
+vibe-prompt-engine mcp stdio
 ```
 
 Release automation and deployment notes are in [RELEASE.md](RELEASE.md) and [deploy/cloudrun/README.md](deploy/cloudrun/README.md).
@@ -140,15 +140,15 @@ Release automation and deployment notes are in [RELEASE.md](RELEASE.md) and [dep
 ## Repository
 
 - GitHub: [adaline-ankit/prompt-engine](https://github.com/adaline-ankit/prompt-engine)
-- Package: [prompt-engine on PyPI](https://pypi.org/project/prompt-engine/)
+- Package: [vibe-prompt-engine on PyPI](https://pypi.org/project/vibe-prompt-engine/)
 
 ## CLI examples
 
 ```bash
-prompt-engine run "Refactor this Python function to reduce branching."
-prompt-engine run "Classify each support ticket by severity and return JSON." --json
-prompt-engine run "Summarize this design doc" --run-llm --provider mock --stream
-prompt-engine mcp http --host 127.0.0.1 --port 8001
+vibe-prompt-engine run "Refactor this Python function to reduce branching."
+vibe-prompt-engine run "Classify each support ticket by severity and return JSON." --json
+vibe-prompt-engine run "Summarize this design doc" --run-llm --provider mock --stream
+vibe-prompt-engine mcp http --host 127.0.0.1 --port 8001
 ```
 
 ## API examples

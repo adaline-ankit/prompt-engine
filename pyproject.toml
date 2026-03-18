@@ -3,8 +3,8 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "prompt-engine"
-version = "0.1.0"
+name = "vibe-prompt-engine"
+version = "0.1.1"
 description = "Production-grade prompt optimization middleware for SDK, CLI, and API use cases."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -51,6 +51,8 @@ dev = [
 [project.scripts]
 prompt-engine = "prompt_engine.cli:app"
 prompt-engine-mcp = "prompt_engine.mcp.cli:app"
+vibe-prompt-engine = "prompt_engine.cli:app"
+vibe-prompt-engine-mcp = "prompt_engine.mcp.cli:app"
 
 [tool.setuptools]
 package-dir = { "" = "backend" }
