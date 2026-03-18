@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include VERSION
+recursive-include config *.yaml
+recursive-include examples *.json *.md
+recursive-include scripts *.py

@@ -1,0 +1,10 @@
+services:
+  prompt-engine:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      PROMPT_ENGINE_CONFIG: config/config.yaml
+      PROMPT_ENGINE_DEFAULT_PROVIDER: mock
+      PROMPT_ENGINE_DEFAULT_MODEL: mock-gpt
+

@@ -1,0 +1,42 @@
+environment: development
+
+provider:
+  default_provider: mock
+  default_model: mock-gpt
+  timeout_seconds: 30
+  max_retries: 2
+  fallback_providers:
+    - mock
+
+skills:
+  enabled_skills:
+    - role_injection
+    - hallucination_guard
+    - structured_output
+  skill_priority:
+    role_injection: 10
+    hallucination_guard: 20
+    structured_output: 30
+  plugin_paths:
+    - skills
+
+output:
+  default_output_format: markdown_sections
+  max_prompt_chars: 24000
+
+security:
+  pii_masking: false
+  rate_limit_per_minute: 60
+  allow_origins:
+    - "*"
+
+observability:
+  service_name: prompt-engine
+  enable_metrics: true
+  enable_tracing: true
+
+cache:
+  enabled: true
+  ttl_seconds: 300
+  max_entries: 256
+

@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-engine"
+version = "0.1.0"
+description = "Production-grade prompt optimization middleware for SDK, CLI, and API use cases."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [
+  { name = "Prompt Engine Contributors" }
+]
+keywords = ["mcp", "prompt-engineering", "llm", "cursor", "claude-code", "fastapi"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "fastapi>=0.135.0,<1.0.0",
+  "httpx>=0.28.0,<1.0.0",
+  "mcp>=1.26.0,<2.0.0",
+  "opentelemetry-api>=1.27.0,<2.0.0",
+  "prometheus-client>=0.21.0,<1.0.0",
+  "pydantic>=2.12.0,<3.0.0",
+  "PyYAML>=6.0.0,<7.0.0",
+  "typer>=0.12.5,<1.0.0",
+  "uvicorn[standard]>=0.34.0,<1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/adaline-ankit/prompt-engine"
+Repository = "https://github.com/adaline-ankit/prompt-engine"
+Issues = "https://github.com/adaline-ankit/prompt-engine/issues"
+Changelog = "https://github.com/adaline-ankit/prompt-engine/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0,<9.0.0",
+  "pytest-asyncio>=0.24.0,<1.0.0",
+  "build>=1.2.0,<2.0.0",
+  "twine>=5.1.0,<6.0.0",
+]
+
+[project.scripts]
+prompt-engine = "prompt_engine.cli:app"
+prompt-engine-mcp = "prompt_engine.mcp.cli:app"
+
+[tool.setuptools]
+package-dir = { "" = "backend" }
+
+[tool.setuptools.packages.find]
+where = ["backend"]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["tests"]

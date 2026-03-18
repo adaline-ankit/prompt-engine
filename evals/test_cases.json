@@ -1,0 +1,57 @@
+[
+  {
+    "id": "coding-refactor",
+    "prompt": "Refactor this Python function to reduce branching and explain the changes.",
+    "context": {
+      "channel": "agent"
+    },
+    "repeat_runs": 3,
+    "expectations": {
+      "intent": "coding",
+      "required_skills": ["role_injection", "hallucination_guard", "structured_output"],
+      "required_sections": ["Role:", "Objective:", "Instructions:", "Constraints:", "Output Contract:"],
+      "expected_keywords": ["artifacts", "implementation-ready"],
+      "passing_score": 0.75
+    }
+  },
+  {
+    "id": "extraction-json",
+    "prompt": "Extract the account owner, ARR, and renewal date from this CRM note and return JSON.",
+    "context": {
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "account_owner": { "type": "string" },
+          "arr": { "type": "number" },
+          "renewal_date": { "type": "string" }
+        },
+        "required": ["account_owner", "arr", "renewal_date"]
+      }
+    },
+    "repeat_runs": 3,
+    "expectations": {
+      "intent": "extraction",
+      "required_skills": ["role_injection", "hallucination_guard", "structured_output"],
+      "required_sections": ["Role:", "Objective:", "Output Contract:"],
+      "expected_keywords": ["json_schema", "schema"],
+      "passing_score": 0.8
+    }
+  },
+  {
+    "id": "summarization-brief",
+    "prompt": "Summarize this incident report in bullet points for an engineering manager.",
+    "context": {
+      "audience": "engineering manager",
+      "tone": "concise"
+    },
+    "repeat_runs": 3,
+    "expectations": {
+      "intent": "summarization",
+      "required_skills": ["role_injection", "hallucination_guard", "structured_output"],
+      "required_sections": ["Role:", "Objective:", "Instructions:", "Output Contract:"],
+      "expected_keywords": ["bullet", "engineering manager"],
+      "passing_score": 0.75
+    }
+  }
+]
+
