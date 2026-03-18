@@ -108,6 +108,25 @@ or run the GitHub Actions `release-bump` workflow, which updates `VERSION`, `pyp
 }
 ```
 
+If PyPI is not live yet, bootstrap from GitHub instead:
+
+```json
+{
+  "mcpServers": {
+    "prompt-engine": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/adaline-ankit/prompt-engine",
+        "prompt-engine",
+        "mcp",
+        "stdio"
+      ]
+    }
+  }
+}
+```
+
 ### Cursor hosted
 
 ```json

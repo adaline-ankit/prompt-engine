@@ -122,6 +122,19 @@ Recommended rollout:
    - local config using `uvx prompt-engine mcp stdio`
    - or hosted config using `https://api.your-domain.com/mcp`
 
+Until PyPI trusted publishing is configured, users can install directly from GitHub:
+
+```bash
+uvx --from git+https://github.com/adaline-ankit/prompt-engine prompt-engine mcp stdio
+```
+
+Or with `pipx`:
+
+```bash
+pipx install git+https://github.com/adaline-ankit/prompt-engine.git
+prompt-engine mcp stdio
+```
+
 Release automation and deployment notes are in [RELEASE.md](RELEASE.md) and [deploy/cloudrun/README.md](deploy/cloudrun/README.md).
 
 ## Repository

@@ -125,6 +125,7 @@ jobs:
 
   github-release:
     needs: [build, publish-pypi, publish-container]
+    if: ${{ always() && needs.build.result == 'success' && needs.publish-container.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
