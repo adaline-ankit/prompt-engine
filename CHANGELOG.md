@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+- Add first-party VS Code and Cursor extension for prompt optimization
+- Add first-party Chrome extension for browser prompt optimization and page selection replacement
+- Include extension packaging in CI and tagged GitHub releases
+
 ## 0.1.1
 
 - Align PyPI distribution name with the published project: `vibe-prompt-engine`
