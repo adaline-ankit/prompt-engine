@@ -58,3 +58,22 @@ def test_optimizer_preserves_source_and_surrounding_context_for_summaries() -> N
     assert "executive team" in result.final_prompt.lower()
     assert "follow-up owner" in result.final_prompt.lower()
     assert "<context_block name=\"selected_text\"" in result.final_prompt
+
+
+def test_optimizer_honors_prompt_style_preferences() -> None:
+    engine = PromptOptimizationEngine()
+    result = engine.optimize_prompt(
+        "Explain this architecture tradeoff.",
+        context={
+            "verbosity": "elaborate",
+            "reasoning_depth": "deep",
+            "structure_preference": "sections",
+            "grounding_mode": "strict",
+            "use_xml_tags": True,
+        },
+    )
+
+    assert "elaborate level of detail" in result.final_prompt.lower()
+    assert "edge cases and tradeoffs" in result.final_prompt.lower()
+    assert "xml-style tags" in result.final_prompt.lower()
+    assert "markdown_sections" in result.final_prompt

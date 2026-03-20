@@ -57,6 +57,21 @@ _CONTEXT_DESCRIPTIONS = {
     "reference_material": "Reference material",
 }
 
+_CONFIG_ONLY_KEYS = {
+    "api_base_url",
+    "audience",
+    "detail_level",
+    "grounding_mode",
+    "include_surrounding_context",
+    "inline_toolbar_enabled",
+    "output_style",
+    "reasoning_depth",
+    "structure_preference",
+    "tone",
+    "use_xml_tags",
+    "verbosity",
+}
+
 
 class PromptRefiner:
     def refine(self, state: PromptState, context: dict[str, Any]) -> PromptState:
@@ -196,7 +211,7 @@ class PromptRefiner:
         for key, value in context.items():
             if value in (None, "", [], {}):
                 continue
-            if key in {"examples", "output_schema", "fallback_providers", "tools", "intent_hint"}:
+            if key in {"examples", "output_schema", "fallback_providers", "tools", "intent_hint"} | _CONFIG_ONLY_KEYS:
                 continue
             block = self._coerce_context_block(key, value)
             if block is not None:

@@ -1,4 +1,16 @@
 const DEFAULT_API_BASE_URL = "https://prompt-engine-mcp-pewnieev4a-el.a.run.app";
+const DEFAULT_SETTINGS = {
+  apiBaseUrl: DEFAULT_API_BASE_URL,
+  inlineToolbarEnabled: true,
+  includeSurroundingContext: true,
+  useXmlTags: true,
+  verbosity: "balanced",
+  reasoningDepth: "standard",
+  structurePreference: "auto",
+  groundingMode: "strict",
+  tone: "professional",
+  audience: "",
+};
 
 const promptEl = document.getElementById("prompt");
 const optimizedEl = document.getElementById("optimized");
@@ -21,8 +33,22 @@ function setStatus(message, isError = false) {
 }
 
 async function getStoredEndpoint() {
-  const { apiBaseUrl } = await chrome.storage.sync.get({ apiBaseUrl: DEFAULT_API_BASE_URL });
-  return String(apiBaseUrl || DEFAULT_API_BASE_URL).replace(/\/$/, "");
+  const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+  latestContext = buildSettingsContext(settings, latestContext);
+  return String(settings.apiBaseUrl || DEFAULT_API_BASE_URL).replace(/\/$/, "");
+}
+
+function buildSettingsContext(settings, existingContext) {
+  return {
+    ...existingContext,
+    verbosity: settings.verbosity,
+    reasoning_depth: settings.reasoningDepth,
+    structure_preference: settings.structurePreference,
+    grounding_mode: settings.groundingMode,
+    use_xml_tags: settings.useXmlTags,
+    tone: settings.tone,
+    ...(settings.audience ? { audience: settings.audience } : {})
+  };
 }
 
 async function sendToActiveTab(message) {

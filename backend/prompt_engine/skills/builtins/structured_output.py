@@ -22,6 +22,7 @@ class StructuredOutputSkill(Skill):
 
     def transform(self, state: PromptState, context: dict[str, Any]) -> PromptState:
         before = str(state.output_format) if state.output_format else None
+        preferred_style = str(context.get("structure_preference") or context.get("output_style") or "").lower()
 
         if context.get("output_schema"):
             state.output_format = {
@@ -29,6 +30,24 @@ class StructuredOutputSkill(Skill):
                 "schema": context["output_schema"],
             }
             self.append_unique(state.expected_output, "Return only data that matches the supplied schema.")
+        elif preferred_style in {"json", "json_object"}:
+            state.output_format = {
+                "type": "json_object",
+                "schema": {
+                    "result": "primary answer",
+                    "notes": ["supporting details or evidence"],
+                },
+            }
+            self.append_unique(state.expected_output, "Return a machine-readable JSON object.")
+        elif preferred_style in {"bullets", "bullet_list", "bullet"}:
+            state.output_format = "Return a concise markdown bullet list."
+            self.append_unique(state.expected_output, "Use concise bullet points.")
+        elif preferred_style in {"sections", "markdown_sections"}:
+            state.output_format = {
+                "type": "markdown_sections",
+                "sections": ["Goal", "Answer", "Notes"],
+            }
+            self.append_unique(state.expected_output, "Return concise markdown sections.")
         elif state.intent in {"classification", "extraction"}:
             state.output_format = {
                 "type": "json_object",
@@ -57,4 +76,3 @@ class StructuredOutputSkill(Skill):
             after=str(state.output_format),
         )
         return state
-

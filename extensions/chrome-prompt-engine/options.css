@@ -20,15 +20,39 @@ h1 {
   margin: 0 0 4px;
 }
 
+.group {
+  display: grid;
+  gap: 10px;
+}
+
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 label {
   font-weight: 600;
 }
 
-input {
+input,
+select {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #cbd5e1;
   font: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.checkbox input {
+  width: auto;
 }
 
 .row {
@@ -53,4 +77,10 @@ button.ghost {
 
 #status {
   min-height: 18px;
+}
+
+@media (max-width: 720px) {
+  .grid.two {
+    grid-template-columns: 1fr;
+  }
 }

@@ -90,7 +90,7 @@ npm run build
 npm run package
 ```
 
-Then install `vibe-prompt-engine-vscode-0.1.4.vsix` from:
+Then install `vibe-prompt-engine-vscode-0.1.5.vsix` from:
 
 - VS Code: `Extensions: Install from VSIX...`
 - Cursor: `Extensions: Install from VSIX...`
@@ -102,7 +102,7 @@ Chrome local test:
 3. Click `Load unpacked`
 4. Select `extensions/chrome-prompt-engine`
 
-The Chrome extension now injects an inline `Optimize` button beside active prompt fields and rewrites the current prompt in place without opening the popup.
+The Chrome extension now injects a persistent inline toolbar beside ChatGPT-style prompt fields, with `Optimize` and `Tune` controls for prompt style settings, and rewrites the current prompt in place without opening the popup.
 
 Both clients default to the hosted production endpoint:
 

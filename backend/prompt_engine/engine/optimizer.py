@@ -245,6 +245,19 @@ class PromptOptimizationEngine:
             instructions.append(f"Use a {tone} tone.")
         if context.get("output_schema"):
             instructions.append("Follow the provided schema exactly.")
+        if verbosity := context.get("verbosity"):
+            article = "an" if str(verbosity).lower()[:1] in {"a", "e", "i", "o", "u"} else "a"
+            instructions.append(f"Bias the final response toward {article} {verbosity} level of detail.")
+        if reasoning_depth := context.get("reasoning_depth"):
+            if reasoning_depth == "deep":
+                instructions.append("Reason carefully through edge cases and tradeoffs before answering.")
+            elif reasoning_depth == "light":
+                instructions.append("Use lightweight reasoning and answer directly unless complexity requires more analysis.")
+        if grounding_mode := context.get("grounding_mode"):
+            if grounding_mode == "strict":
+                instructions.append("Prefer supplied evidence and explicit context over background assumptions.")
+        if context.get("use_xml_tags"):
+            instructions.append("Keep prompt sections clearly separated with consistent XML-style tags.")
         if intent == "coding":
             instructions.append("Return implementation-ready technical details, not generic advice.")
         elif intent == "reasoning":

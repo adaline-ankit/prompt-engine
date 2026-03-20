@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+- Add a persistent inline prompt toolbar for ChatGPT-style web editors with in-place optimization
+- Add configurable prompt-style controls for verbosity, reasoning depth, structure, grounding, tone, and audience
+- Teach the optimizer to honor those style controls when assembling the final prompt
+
 ## 0.1.4
 
 - Fix PyPI release artifact upload so only Python distributions are published

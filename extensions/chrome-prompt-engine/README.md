@@ -7,6 +7,7 @@ This Chrome extension lets you:
 - copy the optimized prompt
 - replace the selected text in the page
 - click an inline `Optimize` button that appears beside the active prompt field and rewrites it in place
+- tune prompt style inline for verbosity, reasoning depth, structure, grounding, tone, and audience
 
 ## Load locally
 
