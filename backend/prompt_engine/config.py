@@ -20,7 +20,12 @@ class ProviderSettings(BaseModel):
 
 class SkillSettings(BaseModel):
     enabled_skills: list[str] = Field(
-        default_factory=lambda: ["role_injection", "hallucination_guard", "structured_output"]
+        default_factory=lambda: [
+            "role_injection",
+            "best_practice_prompting",
+            "hallucination_guard",
+            "structured_output",
+        ]
     )
     skill_priority: dict[str, int] = Field(default_factory=dict)
     plugin_paths: list[str] = Field(default_factory=lambda: ["skills"])
@@ -79,4 +84,3 @@ def _apply_env_overrides(config: AppConfig) -> None:
         config.provider.default_provider = provider
     if model:
         config.provider.default_model = model
-

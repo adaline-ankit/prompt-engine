@@ -8,7 +8,7 @@ from typing import Any
 
 from prompt_engine.cache import TTLCache
 from prompt_engine.config import AppConfig, load_config
-from prompt_engine.core import PromptCompiler, PromptDecomposer
+from prompt_engine.core import PromptCompiler, PromptDecomposer, PromptRefiner
 from prompt_engine.diffing import build_prompt_diff
 from prompt_engine.engine.detector import HybridIntentDetector
 from prompt_engine.models import CompletionRequest, OptimizedPrompt, PromptState, RunResponse, TransformationStep
@@ -27,6 +27,7 @@ class PromptOptimizationEngine:
         self.metrics = MetricsRecorder(self.config.observability.enable_metrics)
         self.detector = HybridIntentDetector()
         self.decomposer = PromptDecomposer()
+        self.refiner = PromptRefiner()
         self.compiler = PromptCompiler(max_chars=self.config.output.max_prompt_chars)
         self.registry = SkillRegistry(self.config)
         self.pipeline = OptimizationPipeline(self.registry)
@@ -108,6 +109,7 @@ class PromptOptimizationEngine:
             elif examples:
                 state.examples.append(str(examples))
 
+            state = self.refiner.refine(state, context)
             state.instructions.extend(self._default_instructions(state.intent, context))
             state, skills_applied = self.pipeline.run(state, context)
             final_prompt = self.compiler.compile(state)
@@ -233,7 +235,10 @@ class PromptOptimizationEngine:
         )
 
     def _default_instructions(self, intent: str, context: dict[str, Any]) -> list[str]:
-        instructions = ["Complete the request directly and remove unnecessary filler."]
+        instructions = [
+            "Complete the request directly and keep the response tightly aligned to the requested deliverable.",
+            "Use the provided context and source material before falling back to generic knowledge.",
+        ]
         if audience := context.get("audience"):
             instructions.append(f"Target audience: {audience}.")
         if tone := context.get("tone"):
@@ -241,7 +246,15 @@ class PromptOptimizationEngine:
         if context.get("output_schema"):
             instructions.append("Follow the provided schema exactly.")
         if intent == "coding":
-            instructions.append("Prefer implementation-ready detail over high-level generalities.")
+            instructions.append("Return implementation-ready technical details, not generic advice.")
+        elif intent == "reasoning":
+            instructions.append("Return a concise conclusion with the key rationale and tradeoffs.")
+        elif intent in {"extraction", "classification"}:
+            instructions.append("Use only values that are grounded in the supplied input or context.")
+        elif intent == "summarization":
+            instructions.append("Preserve the most important facts, owners, dates, and risks.")
+        if context.get("conversation_summary") or context.get("chat_context"):
+            instructions.append("Use the recent conversation context only when it materially improves the answer.")
         return instructions
 
     def _cache_key(self, prompt: str, context: dict[str, Any]) -> str:

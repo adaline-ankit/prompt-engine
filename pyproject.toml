@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vibe-prompt-engine"
-version = "0.1.2"
+version = "0.1.3"
 description = "Production-grade prompt optimization middleware for SDK, CLI, and API use cases."
 readme = "README.md"
 requires-python = ">=3.11"

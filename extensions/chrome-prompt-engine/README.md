@@ -6,6 +6,7 @@ This Chrome extension lets you:
 - optimize the prompt with the hosted Prompt Engine service
 - copy the optimized prompt
 - replace the selected text in the page
+- click an inline `Optimize` button that appears beside the active prompt field and rewrites it in place
 
 ## Load locally
 

@@ -48,9 +48,16 @@ class OptimizationScore(BaseModel):
     overall: float
 
 
+class PromptContextBlock(BaseModel):
+    name: str
+    content: str
+    description: str | None = None
+
+
 class PromptState(BaseModel):
     base_prompt: str
     sanitized_prompt: str
+    refined_prompt: str | None = None
     role: str | None = None
     intent: IntentType = "unknown"
     goal: str = ""
@@ -59,6 +66,7 @@ class PromptState(BaseModel):
     constraints: list[str] = Field(default_factory=list)
     expected_output: list[str] = Field(default_factory=list)
     missing_info: list[str] = Field(default_factory=list)
+    context_blocks: list[PromptContextBlock] = Field(default_factory=list)
     output_format: dict[str, Any] | str | None = None
     transformations: list[TransformationStep] = Field(default_factory=list)
     metadata: dict[str, Any] = Field(default_factory=dict)
@@ -124,4 +132,3 @@ class RunResponse(BaseModel):
     token_estimate: int
     latency_ms: int
     provider_latency_ms: int
-

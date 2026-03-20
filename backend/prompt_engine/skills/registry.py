@@ -7,7 +7,12 @@ from typing import Any
 from prompt_engine.config import AppConfig
 from prompt_engine.models import PromptState
 from prompt_engine.skills.base import Skill
-from prompt_engine.skills.builtins import HallucinationGuardSkill, RoleInjectionSkill, StructuredOutputSkill
+from prompt_engine.skills.builtins import (
+    BestPracticePromptingSkill,
+    HallucinationGuardSkill,
+    RoleInjectionSkill,
+    StructuredOutputSkill,
+)
 
 
 class SkillRegistry:
@@ -18,6 +23,7 @@ class SkillRegistry:
         self.register_many(
             [
                 RoleInjectionSkill(),
+                BestPracticePromptingSkill(),
                 HallucinationGuardSkill(),
                 StructuredOutputSkill(),
             ]
@@ -99,4 +105,3 @@ class SkillRegistry:
             self.register_many(skills)
         except Exception as exc:  # pragma: no cover - defensive plugin boundary
             self.load_errors[file_path.name] = str(exc)
-

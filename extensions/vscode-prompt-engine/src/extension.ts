@@ -277,6 +277,13 @@ function apiBaseUrl(): string {
 }
 
 async function optimizePrompt(prompt: string): Promise<OptimizeResponse> {
+  return optimizePromptWithContext(prompt, {});
+}
+
+async function optimizePromptWithContext(
+  prompt: string,
+  context: Record<string, unknown>
+): Promise<OptimizeResponse> {
   const trimmed = prompt.trim();
   if (!trimmed) {
     throw new Error("Prompt is empty.");
@@ -285,7 +292,7 @@ async function optimizePrompt(prompt: string): Promise<OptimizeResponse> {
   const response = await fetch(`${apiBaseUrl().replace(/\/$/, "")}/optimize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: trimmed, context: {} })
+    body: JSON.stringify({ prompt: trimmed, context })
   });
 
   if (!response.ok) {
@@ -307,6 +314,39 @@ function selectionOrDocument(editor: vscode.TextEditor | undefined): { text: str
   return { text: editor.document.getText(), range: null };
 }
 
+function buildEditorContext(editor: vscode.TextEditor | undefined, selectedText: string): Record<string, unknown> {
+  if (!editor) {
+    return {};
+  }
+
+  const { document, selection } = editor;
+  const context: Record<string, unknown> = {
+    editor_language: document.languageId,
+    file_path: document.uri.scheme === "file" ? document.uri.fsPath : document.uri.toString()
+  };
+  const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+
+  if (workspaceFolder) {
+    context.workspace_context = `Workspace: ${workspaceFolder.name}`;
+  }
+
+  if (!selection.isEmpty) {
+    const startLine = Math.max(0, selection.start.line - 8);
+    const endLine = Math.min(document.lineCount - 1, selection.end.line + 8);
+    const surroundingRange = new vscode.Range(
+      new vscode.Position(startLine, 0),
+      document.lineAt(endLine).range.end
+    );
+    const surroundingText = document.getText(surroundingRange).trim();
+    context.selected_text = selectedText;
+    if (surroundingText && surroundingText !== selectedText.trim()) {
+      context.surrounding_text = surroundingText;
+    }
+  }
+
+  return context;
+}
+
 async function replaceInEditor(text: string): Promise<void> {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
@@ -324,7 +364,12 @@ export function activate(context: vscode.ExtensionContext): void {
   const handlePanelMessage = async (message: any, panel: PromptEnginePanel) => {
     try {
       if (message.type === "optimize") {
-        panel.updateResult(await optimizePrompt(message.prompt));
+        panel.updateResult(
+          await optimizePromptWithContext(
+            message.prompt,
+            buildEditorContext(vscode.window.activeTextEditor, String(message.prompt || ""))
+          )
+        );
         return;
       }
       if (message.type === "copy") {
@@ -351,7 +396,7 @@ export function activate(context: vscode.ExtensionContext): void {
     try {
       const { text } = selectionOrDocument(vscode.window.activeTextEditor);
       const panel = PromptEnginePanel.show(context.extensionUri, text, handlePanelMessage);
-      panel.updateResult(await optimizePrompt(text));
+      panel.updateResult(await optimizePromptWithContext(text, buildEditorContext(vscode.window.activeTextEditor, text)));
     } catch (error) {
       void vscode.window.showErrorMessage(error instanceof Error ? error.message : "Prompt optimization failed.");
     }
@@ -361,7 +406,7 @@ export function activate(context: vscode.ExtensionContext): void {
     try {
       const editor = vscode.window.activeTextEditor;
       const { text } = selectionOrDocument(editor);
-      const result = await optimizePrompt(text);
+      const result = await optimizePromptWithContext(text, buildEditorContext(editor, text));
       await replaceInEditor(result.final_prompt);
       void vscode.window.showInformationMessage("Selection replaced with optimized prompt.");
     } catch (error) {
@@ -371,8 +416,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const copyOptimized = vscode.commands.registerCommand("promptEngine.copyOptimizedPrompt", async () => {
     try {
-      const { text } = selectionOrDocument(vscode.window.activeTextEditor);
-      const result = await optimizePrompt(text);
+      const editor = vscode.window.activeTextEditor;
+      const { text } = selectionOrDocument(editor);
+      const result = await optimizePromptWithContext(text, buildEditorContext(editor, text));
       await vscode.env.clipboard.writeText(result.final_prompt);
       void vscode.window.showInformationMessage("Optimized prompt copied to clipboard.");
     } catch (error) {

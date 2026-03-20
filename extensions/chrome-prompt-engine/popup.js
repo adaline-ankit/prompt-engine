@@ -13,6 +13,7 @@ const copyButton = document.getElementById("copy-optimized");
 const settingsButton = document.getElementById("open-options");
 
 let latestOptimized = "";
+let latestContext = {};
 
 function setStatus(message, isError = false) {
   statusEl.textContent = message;
@@ -57,7 +58,7 @@ async function optimizePrompt() {
     const response = await fetch(`${apiBaseUrl}/optimize`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt, context: {} })
+      body: JSON.stringify({ prompt, context: latestContext })
     });
 
     if (!response.ok) {
@@ -84,6 +85,7 @@ importButton.addEventListener("click", async () => {
   try {
     const payload = await sendToActiveTab({ type: "PROMPT_ENGINE_GET_SELECTION" });
     promptEl.value = payload?.text || "";
+    latestContext = payload?.context || {};
     setStatus(promptEl.value ? "Imported selection." : "No selection or editable text found.", !promptEl.value);
   } catch (error) {
     setStatus(error instanceof Error ? error.message : "Could not access the active tab.", true);

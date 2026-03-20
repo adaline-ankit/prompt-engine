@@ -2,7 +2,7 @@
   "name": "vibe-prompt-engine-vscode",
   "displayName": "Vibe Prompt Engine",
   "description": "Optimize prompts from VS Code or Cursor before sending them to an LLM.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "adaline-ankit",
   "license": "MIT",
   "engines": {

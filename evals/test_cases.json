@@ -8,9 +8,9 @@
     "repeat_runs": 3,
     "expectations": {
       "intent": "coding",
-      "required_skills": ["role_injection", "hallucination_guard", "structured_output"],
+      "required_skills": ["role_injection", "best_practice_prompting", "hallucination_guard", "structured_output"],
       "required_sections": ["Role:", "Objective:", "Instructions:", "Constraints:", "Output Contract:"],
-      "expected_keywords": ["artifacts", "implementation-ready"],
+      "expected_keywords": ["artifacts", "implementation-ready", "context"],
       "passing_score": 0.75
     }
   },
@@ -31,8 +31,8 @@
     "repeat_runs": 3,
     "expectations": {
       "intent": "extraction",
-      "required_skills": ["role_injection", "hallucination_guard", "structured_output"],
-      "required_sections": ["Role:", "Objective:", "Output Contract:"],
+      "required_skills": ["role_injection", "best_practice_prompting", "hallucination_guard", "structured_output"],
+      "required_sections": ["Role:", "Objective:", "Output Contract:", "Source Prompt:"],
       "expected_keywords": ["json_schema", "schema"],
       "passing_score": 0.8
     }
@@ -47,11 +47,43 @@
     "repeat_runs": 3,
     "expectations": {
       "intent": "summarization",
-      "required_skills": ["role_injection", "hallucination_guard", "structured_output"],
+      "required_skills": ["role_injection", "best_practice_prompting", "hallucination_guard", "structured_output"],
       "required_sections": ["Role:", "Objective:", "Instructions:", "Output Contract:"],
       "expected_keywords": ["bullet", "engineering manager"],
       "passing_score": 0.75
     }
+  },
+  {
+    "id": "shorthand-cleanup",
+    "prompt": "plz extract owner arr n renewl date frm this note and return json",
+    "context": {
+      "conversation_summary": "Owner: Maya. ARR: 85000. Renewal date: 2026-09-30."
+    },
+    "repeat_runs": 3,
+    "expectations": {
+      "intent": "extraction",
+      "required_skills": ["role_injection", "best_practice_prompting", "hallucination_guard", "structured_output"],
+      "required_sections": ["Objective:", "Refined Request:", "Context:", "Output Contract:"],
+      "expected_keywords": ["renewal", "conversation_summary", "json"],
+      "passing_score": 0.82
+    }
+  },
+  {
+    "id": "context-aware-summary",
+    "prompt": "Summrize this for exec update",
+    "context": {
+      "selected_text": "Payments were degraded for 28 minutes.",
+      "surrounding_text": "Primary cause was a bad config rollout. Mitigation completed at 09:42 UTC.",
+      "audience": "executive team",
+      "tone": "concise"
+    },
+    "repeat_runs": 3,
+    "expectations": {
+      "intent": "summarization",
+      "required_skills": ["role_injection", "best_practice_prompting", "hallucination_guard", "structured_output"],
+      "required_sections": ["Objective:", "Context:", "Instructions:", "Output Contract:"],
+      "expected_keywords": ["executive team", "09:42 utc", "context_block"],
+      "passing_score": 0.82
+    }
   }
 ]
-

@@ -23,7 +23,7 @@ def create_app(config_path: str | None = None) -> FastAPI:
         async with mcp_server.session_manager.run():
             yield
 
-    app = FastAPI(title="Prompt Engine", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="Prompt Engine", version="0.1.3", lifespan=lifespan)
     app.state.engine = engine
 
     app.add_middleware(

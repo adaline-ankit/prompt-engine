@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- Add a page-injected `Optimize` button beside active browser prompt fields for one-click in-place rewriting
+- Improve prompt refinement with stronger language normalization, request reframing, and structured context blocks
+- Expand eval coverage for shorthand prompts and context-aware summaries
+
 ## 0.1.2
 
 - Add first-party VS Code and Cursor extension for prompt optimization

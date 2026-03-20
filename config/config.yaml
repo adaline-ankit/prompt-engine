@@ -11,10 +11,12 @@ provider:
 skills:
   enabled_skills:
     - role_injection
+    - best_practice_prompting
     - hallucination_guard
     - structured_output
   skill_priority:
     role_injection: 10
+    best_practice_prompting: 15
     hallucination_guard: 20
     structured_output: 30
   plugin_paths:
@@ -39,4 +41,3 @@ cache:
   enabled: true
   ttl_seconds: 300
   max_entries: 256
-
