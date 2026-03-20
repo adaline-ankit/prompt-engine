@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Fix PyPI release artifact upload so only Python distributions are published
+- Keep extension artifacts on GitHub releases without polluting the PyPI publish job
+
 ## 0.1.3
 
 - Add a page-injected `Optimize` button beside active browser prompt fields for one-click in-place rewriting

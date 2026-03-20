@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Vibe Prompt Engine",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Optimize prompts from the browser before sending them to an LLM.",
   "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": [

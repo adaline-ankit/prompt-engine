@@ -90,7 +90,7 @@ npm run build
 npm run package
 ```
 
-Then install `vibe-prompt-engine-vscode-0.1.3.vsix` from:
+Then install `vibe-prompt-engine-vscode-0.1.4.vsix` from:
 
 - VS Code: `Extensions: Install from VSIX...`
 - Cursor: `Extensions: Install from VSIX...`
