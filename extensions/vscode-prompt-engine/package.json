@@ -1,0 +1,62 @@
+{
+  "name": "vibe-prompt-engine-vscode",
+  "displayName": "Vibe Prompt Engine",
+  "description": "Optimize prompts from VS Code or Cursor before sending them to an LLM.",
+  "version": "0.1.0",
+  "publisher": "adaline-ankit",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:promptEngine.openOptimizer",
+    "onCommand:promptEngine.optimizeSelection",
+    "onCommand:promptEngine.replaceSelection",
+    "onCommand:promptEngine.copyOptimizedPrompt"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "promptEngine.openOptimizer",
+        "title": "Prompt Engine: Open Optimizer"
+      },
+      {
+        "command": "promptEngine.optimizeSelection",
+        "title": "Prompt Engine: Optimize Selection"
+      },
+      {
+        "command": "promptEngine.replaceSelection",
+        "title": "Prompt Engine: Replace Selection With Optimized Prompt"
+      },
+      {
+        "command": "promptEngine.copyOptimizedPrompt",
+        "title": "Prompt Engine: Copy Optimized Prompt"
+      }
+    ],
+    "configuration": {
+      "title": "Prompt Engine",
+      "properties": {
+        "promptEngine.apiBaseUrl": {
+          "type": "string",
+          "default": "https://prompt-engine-mcp-pewnieev4a-el.a.run.app",
+          "description": "Base URL for the hosted Prompt Engine API."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "clean": "rm -rf out *.vsix",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.6.2",
+    "typescript": "^5.8.3"
+  }
+}

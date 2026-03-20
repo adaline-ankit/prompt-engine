@@ -12,8 +12,10 @@ htmlcov/
 node_modules/
 sdk/typescript/dist/
 sdk/typescript/.turbo/
+extensions/vscode-prompt-engine/out/
+extensions/vscode-prompt-engine/*.vsix
+dist/extensions/
 *.pyc
 *.pyo
 *.pyd
 .DS_Store
-

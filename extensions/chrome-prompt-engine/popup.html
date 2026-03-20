@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe Prompt Engine</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <h1>Vibe Prompt Engine</h1>
+      <button id="open-options" class="ghost">Settings</button>
+    </header>
+
+    <section class="block">
+      <div class="row">
+        <button id="import-selection" class="ghost">Import Selection</button>
+        <button id="optimize">Optimize</button>
+      </div>
+      <textarea id="prompt" placeholder="Paste or import a prompt."></textarea>
+    </section>
+
+    <section class="block">
+      <div class="meta">
+        <div>
+          <div class="label">Intent</div>
+          <div id="intent">Unknown</div>
+        </div>
+        <div>
+          <div class="label">Skills Applied</div>
+          <div id="skills" class="chips"></div>
+        </div>
+      </div>
+      <div class="row">
+        <button id="replace-selection" class="ghost" disabled>Replace Page Selection</button>
+        <button id="copy-optimized" class="ghost" disabled>Copy Optimized</button>
+      </div>
+      <textarea id="optimized" placeholder="Optimized prompt will appear here." readonly></textarea>
+      <details>
+        <summary>Prompt Diff</summary>
+        <pre id="diff">No diff yet.</pre>
+      </details>
+      <div id="status"></div>
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

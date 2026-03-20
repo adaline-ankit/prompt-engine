@@ -22,6 +22,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Install build tooling
         run: |
           python -m pip install --upgrade pip
@@ -69,11 +73,29 @@ jobs:
       - name: Build distributions
         run: python -m build
 
+      - name: Build extension artifacts
+        run: |
+          cd extensions/vscode-prompt-engine
+          npm ci
+          npm run build
+          npm run package
+          cd ../..
+          mkdir -p dist/extensions
+          cp extensions/vscode-prompt-engine/*.vsix dist/extensions/
+          cd extensions/chrome-prompt-engine
+          zip -r ../../dist/extensions/vibe-prompt-engine-chrome-${{ steps.meta.outputs.version }}.zip .
+
       - name: Upload Python distributions
         uses: actions/upload-artifact@v4
         with:
           name: python-dist
           path: dist/*
+
+      - name: Upload extension artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-dist
+          path: dist/extensions/*
 
   publish-pypi:
     needs: build
@@ -133,8 +155,15 @@ jobs:
           name: python-dist
           path: dist
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: extension-dist
+          path: dist/extensions
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: dist/*
+          files: |
+            dist/*
+            dist/extensions/*

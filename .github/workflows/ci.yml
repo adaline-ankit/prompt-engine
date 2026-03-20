@@ -8,6 +8,7 @@ on:
       - "evals/**"
       - "tests/**"
       - "scripts/**"
+      - "extensions/**"
       - "VERSION"
       - "pyproject.toml"
   pull_request:
@@ -17,6 +18,7 @@ on:
       - "evals/**"
       - "tests/**"
       - "scripts/**"
+      - "extensions/**"
       - "VERSION"
       - "pyproject.toml"
 
@@ -36,3 +38,11 @@ jobs:
         run: pytest
       - name: Run evals
         run: python evals/runner.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build VS Code extension
+        run: |
+          cd extensions/vscode-prompt-engine
+          npm ci
+          npm run build

@@ -56,6 +56,10 @@ skills/
 
 tests/
   unit and API smoke tests
+
+extensions/
+  vscode-prompt-engine/  VS Code and Cursor extension
+  chrome-prompt-engine/  Chrome extension for browser prompt rewriting
 ```
 
 ## Quick start
@@ -68,6 +72,40 @@ vibe-prompt-engine run "Extract the customer objections from this transcript and
 uvicorn prompt_engine.api.app:app --reload
 vibe-prompt-engine mcp cursor-config --transport stdio
 python evals/runner.py
+```
+
+## Extensions
+
+Prompt Engine now ships with first-party extension clients:
+
+- VS Code/Cursor extension in [extensions/vscode-prompt-engine](extensions/vscode-prompt-engine)
+- Chrome extension in [extensions/chrome-prompt-engine](extensions/chrome-prompt-engine)
+
+VS Code or Cursor local test:
+
+```bash
+cd extensions/vscode-prompt-engine
+npm install
+npm run build
+npm run package
+```
+
+Then install `vibe-prompt-engine-vscode-0.1.0.vsix` from:
+
+- VS Code: `Extensions: Install from VSIX...`
+- Cursor: `Extensions: Install from VSIX...`
+
+Chrome local test:
+
+1. Open `chrome://extensions`
+2. Enable Developer Mode
+3. Click `Load unpacked`
+4. Select `extensions/chrome-prompt-engine`
+
+Both clients default to the hosted production endpoint:
+
+```text
+https://prompt-engine-mcp-pewnieev4a-el.a.run.app
 ```
 
 ## MCP quick start
